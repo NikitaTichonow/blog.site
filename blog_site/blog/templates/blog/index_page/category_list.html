@@ -1,0 +1,15 @@
+{% block categories_list %}
+    {% load mptt_tags %}
+    <ul class="root">
+        {% recursetree categories_list %}
+            <li>
+                <a href="{{ node.get_absolute_url }}">{{ node.title }}</a>
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
+{% endblock %}
