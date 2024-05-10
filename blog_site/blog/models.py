@@ -1,7 +1,12 @@
+import random
+
 from django.db import models
 from django.urls import reverse
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel, TreeForeignKey
+from django_ckeditor_5.fields import CKEditor5Field
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class PostFilesModel(models.Model):
@@ -14,6 +19,8 @@ class PostFilesModel(models.Model):
     download_count = models.IntegerField(default=0,
                                          verbose_name='Скачиваний')
 
+
+
     class Meta:
         verbose_name = 'Файл поста'
         verbose_name_plural = 'Файлы постов'
@@ -21,6 +28,20 @@ class PostFilesModel(models.Model):
     def increment_download_count(self):
         self.download_count += 1
         self.save()
+
+    import random
+
+    def save(self, *args, **kwargs):
+        if not self.code:
+            self.code = self.generate_unique_code()
+        super().save(*args, **kwargs)
+
+    @staticmethod
+    def generate_unique_code():
+        code = random.randint(100000, 999999)
+        while PostFilesModel.objects.filter(code=code).exists():
+            code = random.randint(100000, 999999)
+        return code
 
     def __str__(self):
         return self.title
@@ -77,9 +98,7 @@ class CategoryModel(MPTTModel):
 
 
 
-from django_ckeditor_5.fields import CKEditor5Field
-from django.contrib.auth.models import User
-from django.utils import timezone
+
 
 class PostModel(models.Model):
     """Модель поста"""
@@ -121,6 +140,13 @@ class PostModel(models.Model):
                                 verbose_name="Количество просмотров")
 
     objects = models.Manager()
+
+    file = models.OneToOneField(PostFilesModel,
+                             on_delete=models.SET_NULL,
+                             null=True,
+                             blank=True,
+                             verbose_name="Файл",
+                             related_name="post")
 
     class Meta:
         ordering = ['-publish']

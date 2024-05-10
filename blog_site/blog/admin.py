@@ -9,6 +9,7 @@ class PostFilesAdmin(admin.ModelAdmin):
     list_display = ('title', 'code', 'download_count', )
     search_fields = ['title', ]
     exclude = ['download_count', ]
+    readonly_fields = ('code',)
 
 
 @admin.register(models.BotUserModel)
