@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+    <section class="al mt-3">
+        <div class="container justify-content-center">
+            <div class="alert alert-dismissible alert-warning">
+                <h4 class="alert-heading">Приветствую вас!</h4>
+                <h5 class="mb-0">Сайт находится в процессе разработки.<br></h5>
+            </div>
+        </div>
+    </section>
+    {% block categories_list %}
+        {% include 'blog/index_page/category_list.html' %}
+    {% endblock %}
+{% endblock %}

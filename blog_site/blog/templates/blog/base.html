@@ -1,0 +1,21 @@
+{% load analytical %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="dark" class="h-100">
+<head>
+{% analytical_head_top %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Press Any Button</title>
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+{% analytical_head_bottom %}
+</head>
+<body class="d-flex flex-column h-100">
+{% analytical_body_top %}
+{% analytical_body_bottom %}
+{% block content %}
+{% endblock %}
+<script src="{% static "js/bootstrap.bundle.js" %}"></script>
+{% analytical_body_bottom %}
+</body>
+</html>
